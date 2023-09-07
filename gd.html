@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>高德地图API自定义地图</title>
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		.iw_poi_title {
+			color: #CC5522;
+			font-size: 14px;
+			font-weight: bold;
+			overflow: hidden;
+			padding-right: 13px;
+			white-space: nowrap
+		}
+
+		.iw_poi_content {
+			font: 12px arial, sans-serif;
+			overflow: visible;
+			padding-top: 4px;
+			white-space: -moz-pre-wrap;
+			word-wrap: break-word
+		}
+	</style>
+	<script type="text/javascript"
+		src="https://webapi.amap.com/maps?v=2.0&key=c2d8624cfd8ff1058ab6e3ea23d9a779"></script>
+</head>
+
+<body onload="initMap();">
+	<!--高德地图容器-->
+	<div style="width:697px;height:550px;border:#ccc solid 1px;" id="dituContent"></div>
+</body>
+<script>
+	function getParam(name) {
+		return location.href.match(new RegExp('[?&]' + name + '=([^?&]+)', 'i')) ? decodeURIComponent(RegExp.$1) : '';
+	}
+	const centerParam = getParam('center');
+	const centerArr = centerParam.split(',');
+	const lng = centerArr[0]
+	const lat = centerArr[1]
+	const zoomParam = getParam('zoom');
+	const widthParam = getParam('width');
+	const heightParam = getParam('height');
+	const markersParam = getParam('center');
+
+	//创建和初始化地图函数：
+	function initMap() {
+		// [FF]切换模式后报错
+		if (!window.AMap) {
+			return;
+		}
+		var dituContent = document.getElementById('dituContent');
+		dituContent.style.width = widthParam + 'px';
+		dituContent.style.height = heightParam + 'px';
+
+		createMap();//创建地图
+		addMapControl();//向地图添加控件
+		setTimeout(()=>{
+			setMapMarker()
+		},3000)
+
+	}
+
+	//创建地图函数：
+	function createMap() {
+		var map = new AMap.Map("dituContent");//在百度地图容器中创建一个地图
+		map.setZoomAndCenter(zoomParam, centerArr, false)
+		window.map = map;//将map变量存储在全局
+	}
+
+	// 设置地图标记
+	function setMapMarker() {
+		let marker = new AMap.Marker({
+			icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+			position: [lng, lat],
+			offset: new AMap.Pixel(-20, -60)
+		});
+		marker.setMap(map);
+	}
+
+	//地图控件添加函数：
+	function addMapControl() {
+		//向地图中添加缩放控件
+		AMap.plugin('AMap.ToolBar', function () { // 异步加载插件
+			let toolbar = new AMap.ToolBar(); // 缩放工具条实例化
+			map.addControl(toolbar);
+		});
+
+		//向地图中添加比例尺控件
+		AMap.plugin('AMap.Scale', function () {
+			let toolbar = new AMap.Scale();
+			map.addControl(toolbar);
+		});
+	}
+</script>
+
+</html>
