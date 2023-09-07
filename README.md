@@ -11,16 +11,26 @@ TinyMce富文本编辑器插入高德地图插件
     plugins: {
       type: [String, Array],
       default:
-        "gdmap print preview"
+        "gdmap print preview ..."
    }
    ```
-3. 添加图标， 例如：
+2. 添加图标， 例如：
    ```
    toolbar: {
       type: [String, Array],
       default:
-        "gdmap undo redo"
+        "gdmap undo redo ..."
    }
    ```
+3. 然后在初始化的时候定义
+   ```
+   init:{
+      ...
+      toolbar: this.toolbar,
+      plugins: this.plugins,
+      ...
+   }
+   ```
+4. 开始使用吧！
    
 
