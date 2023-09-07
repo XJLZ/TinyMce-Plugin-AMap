@@ -1,6 +1,10 @@
 # TinyMce-Plugin-AMap
 TinyMce富文本编辑器插入高德地图插件
 
+# 申请
+
+https://lbs.amap.com/api/javascript-api/guide/abc/prepare
+
 # 使用
 ## 获取代码
 1. 在tinymce的plugins文件夹下创建名为gdmap的文件夹
